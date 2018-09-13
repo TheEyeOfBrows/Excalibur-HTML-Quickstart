@@ -1,0 +1,9 @@
+{
+    "editor.tabSize": 3,
+
+    // TSLint
+    "tslint.autoFixOnSave": true,
+    "tslint.alwaysShowStatus": true,
+    "tslint.validateWithDefaultConfig": true,
+    "tslint.configFile": "tslint/tslint.json",
+}
