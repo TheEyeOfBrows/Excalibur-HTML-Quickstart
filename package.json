@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run clean | npm run copy | concurrently \"npm run build -- --watch\" \"npm run serve\"",
+    "start": "npm run clean && npm run copy && concurrently \"npm run build -- --watch\" \"npm run serve\"",
     "build": "tsc -p \"src/tsconfig.json\"",
     "serve": "lite-server -c \"lite-server/bs-config.json\"",
     "clean": "rimraf build",
