@@ -1,5 +1,5 @@
-import Asteroid from "./actors/asteroid.js";
 import Sword from "./actors/sword.js";
+import AsteroidDispatcher from "./dispatcher/asteroidDispatcher.js";
 
 const eng = new ex.Engine({
   width: 600,
@@ -10,24 +10,16 @@ eng.canvas.id = "excalibur-canvas";
 
 const txSword = new ex.Texture("../asset/sword.png");
 const loader = new ex.Loader([txSword]);
-// tslint:disable-next-line:no-var-keyword
-var sword: Sword;
-// tslint:disable-next-line:no-var-keyword
-var ast: Asteroid;
+
+let sword: Sword;
+let dispatcher: AsteroidDispatcher;
 
 eng.start(loader).then(() => {
-  // ex.Physics.collisionResolutionStrategy = ex.CollisionResolutionStrategy.RigidBody;
-
   sword = new Sword(eng.drawWidth / 2, eng.drawHeight / 2, txSword.asSprite());
   eng.add(sword);
 
-  ast = new Asteroid(0, 0, 10, 10);
-  ast.vel = new ex.Vector(eng.canvasWidth, eng.canvasHeight)
-    .normalize()
-    .scale(100);
-  eng.add(ast);
-
-  (window as any).ast = ast;
+  dispatcher = new AsteroidDispatcher(6, 1000, 8, 2, 100);
+  eng.add(dispatcher);
 
   eng.input.pointers.primary.on("move", (evt: ex.Input.PointerEvent) => {
     if (

@@ -27,8 +27,10 @@ export default class Sword extends ex.Actor {
   }
 
   public onInitialize(eng: ex.Engine) {
-    this.collisionType = ex.CollisionType.Fixed;
+    this.collisionType = ex.CollisionType.Passive;
+    this.collisionGroups.push("sword");
 
+    // custom polygon collision to match visual area in sprite
     this.body.usePolygonCollision(
       [
         new ex.Vector(20, -8),
@@ -38,14 +40,6 @@ export default class Sword extends ex.Actor {
       ],
       ex.Vector.Zero.clone()
     );
-
-    this.on("collisionstart", (ev?: ex.CollisionStartEvent) => {
-      const ast = ev.other as Asteroid;
-      if (!!ast) {
-        // tslint:disable-next-line:no-console
-        console.log("collision");
-      }
-    });
   }
 
   public update(eng: ex.Engine, delta: number) {
@@ -53,9 +47,5 @@ export default class Sword extends ex.Actor {
       this.rotation += (Math.PI / delta) * this.rotationSpeed;
     }
     super.update(eng, delta);
-  }
-  public draw(ctx, delta: number) {
-    super.draw(ctx, delta);
-    this.collisionArea.debugDraw(ctx, ex.Color.Green);
   }
 }
