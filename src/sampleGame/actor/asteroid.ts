@@ -1,5 +1,11 @@
 import AsteroidDispatcher from "../dispatcher/asteroidDispatcher";
 
+/**
+ * The asteroid actor has two properties:
+ *    - randomized circle poligon shape
+ *    - on collision with either a sword, or another asteroid,
+ *         spawns smaller child asteroids moving in an escape direction
+ */
 export default class Asteroid extends ex.Actor {
   public rotationVel: number;
 

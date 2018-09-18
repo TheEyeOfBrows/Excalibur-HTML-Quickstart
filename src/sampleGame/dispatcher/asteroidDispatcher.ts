@@ -1,7 +1,7 @@
-import Asteroid from "../actors/asteroid.js";
+import Asteroid from "../actor/asteroid.js";
 
 /**
- * Keeps a list of all asteroids which exist, and spawns in new ones at the screens edge
+ * Keeps a list of all asteroids which exist, and spawns in new ones at the screen's edge
  */
 export default class AsteroidDispatcher extends ex.Actor {
   private bumper = 40;

@@ -1,5 +1,6 @@
-import Asteroid from "./asteroid";
-
+/**
+ * The sword is a rotationg sprite with a custom polygon hitbox.
+ */
 export default class Sword extends ex.Actor {
   public get ShouldRotate(): boolean {
     return this.shouldRotate;
@@ -40,6 +41,25 @@ export default class Sword extends ex.Actor {
       ],
       ex.Vector.Zero.clone()
     );
+  }
+
+  public onMouseMove(
+    evt: ex.Input.PointerEvent,
+    viewWidth: number,
+    viewHeight: number
+  ) {
+    if (
+      evt.screenPos.x >= 0 &&
+      evt.screenPos.x < viewWidth &&
+      evt.screenPos.y >= 0 &&
+      evt.screenPos.y < viewHeight
+    ) {
+      const diff = evt.worldPos.sub(this.pos);
+      this.rotation = diff.toAngle() + Math.PI / 4;
+      this.ShouldRotate = false;
+    } else {
+      this.ShouldRotate = true;
+    }
   }
 
   public update(eng: ex.Engine, delta: number) {
