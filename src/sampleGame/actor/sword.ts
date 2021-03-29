@@ -28,11 +28,10 @@ export default class Sword extends ex.Actor {
   }
 
   public onInitialize(eng: ex.Engine) {
-    this.collisionType = ex.CollisionType.Passive;
-    this.collisionGroups.push("sword");
+    this.body.collider.type = ex.CollisionType.Passive;
 
     // custom polygon collision to match visual area in sprite
-    this.body.usePolygonCollision(
+    this.body.usePolygonCollider(
       [
         new ex.Vector(20, -8),
         new ex.Vector(50, -39),

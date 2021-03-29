@@ -1,4 +1,5 @@
 import AsteroidDispatcher from "../dispatcher/asteroidDispatcher";
+import Sword from "./sword.js";
 
 /**
  * The asteroid actor has two properties:
@@ -59,18 +60,16 @@ export default class Asteroid extends ex.Actor {
     this.addDrawing("poly", this.poly);
     this.currentDrawing = this.poly;
 
-    this.collisionType = ex.CollisionType.Passive;
-    this.collisionArea.body.useCircleCollision(this.radius);
-    this.collisionGroups.push("asteroid");
+    this.body.collider.type = ex.CollisionType.Passive;
+    this.body.collider.body.useCircleCollider(this.radius);
 
     this.on("collisionstart", (ev?: ex.CollisionStartEvent) => {
-      if (ev.other.collisionGroups.indexOf("asteroid") >= 0) {
-        const ast = ev.other as Asteroid;
-        if (!!ast) {
-          ast.break(this);
-          this.break(ast);
+      if(ev.other instanceof Asteroid) {
+        if (!!ev.other) {
+          (ev.other as Asteroid).break(this);
+          this.break(ev.other);
         }
-      } else if (ev.other.collisionGroups.indexOf("sword") >= 0) {
+      } else if (ev.other instanceof Sword) {
         this.break(ev.other);
       }
     });
@@ -114,7 +113,7 @@ export default class Asteroid extends ex.Actor {
           );
           currentDir = escapeDir
             .rotate(angleAdjust)
-            .scale(this.vel.magnitude());
+            .scale(this.vel.size);
           current.vel.setTo(currentDir.x, currentDir.y);
           eng.add(current);
           this.dispatcher.add(current);
@@ -134,10 +133,10 @@ export default class Asteroid extends ex.Actor {
    */
   public isHeadingOffscreen(eng: ex.Engine) {
     return (
-      (this.x < -this.radius * 2 && this.vel.x < 0) ||
-      (this.x > eng.drawWidth + this.radius * 2 && this.vel.x > 0) ||
-      (this.y < -this.radius * 2 && this.vel.y < 0) ||
-      (this.y > eng.drawHeight + this.radius * 2 && this.vel.y > 0)
+      (this.pos.x < -this.radius * 2 && this.vel.x < 0) ||
+      (this.pos.x > eng.drawWidth + this.radius * 2 && this.vel.x > 0) ||
+      (this.pos.y < -this.radius * 2 && this.vel.y < 0) ||
+      (this.pos.y > eng.drawHeight + this.radius * 2 && this.vel.y > 0)
     );
   }
 
